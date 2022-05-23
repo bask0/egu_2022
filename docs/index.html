@@ -1,0 +1,634 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+
+	<title>Reveal JS presentation</title>
+
+	<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+	<meta name="author" content="Hakim El Hattab">
+
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="libs/reveal.js/4.1.3/reset.css">
+	<link rel="stylesheet" href="libs/reveal.js/4.1.3/reveal.css">
+
+	
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+	  <!-- highlight Theme -->
+  	
+	  <link rel="stylesheet" href="libs/highlight.js/11.3.1/styles/monokai.min.css">
+	
+	
+		
+	<link rel="stylesheet" href="libs/reveal.js/4.1.3/plugin/chalkboard/style.css">
+	
+	
+	
+		<link rel="stylesheet" href="libs/reveal.js/4.1.3/plugin/customcontrols/style.css">
+	
+	<link rel="stylesheet" href="libs/styles/tasklist.css">
+
+
+
+  <!-- Revealjs Theme -->
+  
+  	<link rel="stylesheet" href="libs/reveal.js/4.1.3/theme/simple.css" id="theme">
+  
+  
+
+
+  <!-- Revealjs Theme -->
+  
+  	<link rel="stylesheet" href="customtheme.css">
+  
+
+ 
+</head>
+
+<body>
+  
+
+
+  <div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+
+      
+
+
+    
+        <section >
+            
+            <h2>Estimating global terrestrial water storage components by a physically constrained</br>recurrent neural network$^*$</h2>
+<h5>$^*$Kraft et al. (2022), Towards hybrid modeling of the global hydrological cycle <em>hess-26-1579-2022</em></br></h5>
+<h5><em><strong>Basil Kraft¹ ²</strong> (bkraft@bgc-jena.mpg<span>.de</span>), Martin Jung¹, Marco Körner², Sujan Koirala¹, Markus Reichstein¹</em></h5>
+<h5>1) MPI for Biogeochemistry, Jena, Germany </br>2) TUM Dept. Aerospace and Geodesy, Munich, Germany</h5>
+<img src="imgs/by.png" height=60pt>
+<img src="imgs/EGU_April2022.png" height=70pt>
+<h5>Session HS2.5.2: Recent advancement in estimating global, continental and regional scale water balance components</h5>
+<font size="1em" >
+<table>
+  <tr>
+    <td style="text-align:center; height:60px"><img src="logos/bgc.svg" height="100%"/></td>
+    <td style="text-align:center; height:60px"><img src="logos/tum.svg" height="100%"/></td>
+    <td style="text-align:center; height:60px"><img src="logos/usmile.png" height="100%"/></td>
+  </tr>
+  <tr>
+    <td style="text-align:center">
+        Global Diagnostic Modelling Group</br>
+        Max Planck Institute for Biogeochemistry
+    </td>
+    <td style="text-align:center">
+        Computer Vision Research Group</br>
+        Technical University of Munich
+    </td>
+    <td style="text-align:center">
+        European Research Council (ERC) Synergy Grant</br>
+        Understanding and modeling of the Earth system with ML
+    </td>
+  </tr>
+</table>
+</font>
+<aside class="notes">&gt; talk about the combination of DL and physically-based modeling for estimating global terrestrial water storage components</br>&gt; I will focus on introducing the concept and methods</aside>
+
+            </section>
+    
+
+
+
+    
+    <section>
+        <section >
+            <h2>Estimating water storages:</br>a major challenge in hydrology</h2>
+<figure>
+  <img src="imgs/tws_concept.png" width=60% />
+  <figcaption>Water storage components and major land surface processes</br><span class='cite'><b>Image source</b> g3p website; climers.geo.tuwien.ac.at/climers/research/soil-moisture/g3p/</span></figcaption>
+</figure>
+<aside class="notes">&gt; major challenge: estimating storage components</br>&gt; We can’t measure the components on spatially contihuous, global scale</br>but we can measure total storage variations</br>that’s why we use models</aside>
+
+            </section>
+        
+            <section >
+                <h2>Still large uncertainties in GHMs$^*$</h2>
+<figure>
+  <img src="imgs/schellekens.png" width=70% />
+  <figcaption>Seasonal soil moisture anomalies. <span class="cite"></br><b>Image source</b>: Schellekens (2017), doi.org/10.5194/essd-9-389-2017</span></figcaption>
+</figure>
+<p><small><small>$^*$Global hydrological models (including land surface models)</small></small></p>
+<aside class="notes">&gt;The models disagree, large uncertainties</br>we see seasonal soil moisture anomalies here for SE asia</aside>
+
+            </section>
+        
+            <section >
+                <h2>Knowledge versus data driven models</h2>
+<figure>
+  <img src="imgs/model_zoo1.png" width=100% />
+  <figcaption>Physically-based model are more rigid but give detailed insights, conceptual models are less detailed but are oftne closer to observations.</figcaption>
+</figure>
+<ul style="list-style: none; margin: -0px 0px 0px 0px; line-height: 30%">
+ <li><span class="cite">
+  <svg width="16" height="16">
+   <circle cx="8" cy="8" r="8" stroke="orange" stroke-width="0" fill="#fe7403" />
+   <text fill="white" font-size="14" font-family="Calibri (Body)" font-style="normal"
+     x="45%" y="58%" dominant-baseline="middle" text-anchor="middle">1</text>
+  </svg>
+  PCRaster Global Water Balance (PCR-GLOBWB) <b>Image source</b>, Sutanudjaja et al. (2018), doi.org/10.5194/gmd-11-2429-2018</span></li>
+ <li><span class="cite">
+  <svg width="16" height="16">
+  <circle cx="8" cy="8" r="8" stroke="orange" stroke-width="0" fill="#fe7403" />
+  <text fill="white" font-size="14" font-family="Calibri (Body)" font-style="normal"
+    x="45%" y="58%" dominant-baseline="middle" text-anchor="middle">2</text>
+  </svg>
+ Community Water Model (CWatM) <b>Image source</b> Burek et al. (2020), doi.org/10.5194/gmd-13-3267-2020</span></li>
+ <li> <span class="cite">
+  <svg width="16" height="16">
+  <circle cx="8" cy="8" r="8" stroke="orange" stroke-width="0" fill="#fe7403" />
+  <text fill="white" font-size="14" font-family="Calibri (Body)" font-style="normal"
+    x="45%" y="58%" dominant-baseline="middle" text-anchor="middle">3</text>
+  </svg>
+ SINDBAD <b>Image source</b> Trautmann et al. (2022), doi.org/10.5194/hess-26-1089-2022</span></li>
+</ul>
+<aside class="notes">&gt; Large number of modeling concepts</br>&gt; Physically-based, close to physics, models with tunable parameters, conceptual models</br>&gt; from left to right, more data-driven</br>&gt; Simplified: less biases, less detailed insights</aside>
+
+            </section>
+        
+            <section >
+                <h2>Knowledge versus data driven models</h2>
+<figure>
+  <img src="imgs/model_zoo2.png" width=100% />
+  <figcaption>Physically-based model are more rigid but give detailed insights, conceptual models are less detailed but are oftne closer to observations.</figcaption>
+</figure>
+<ul style="list-style: none; margin: -0px 0px 0px 0px; line-height: 30%">
+ <li><span class="cite">
+  <svg width="16" height="16">
+   <circle cx="8" cy="8" r="8" stroke="orange" stroke-width="0" fill="#fe7403" />
+   <text fill="white" font-size="14" font-family="Calibri (Body)" font-style="normal"
+     x="45%" y="58%" dominant-baseline="middle" text-anchor="middle">1</text>
+  </svg>
+  PCRaster Global Water Balance (PCR-GLOBWB) <b>Image source</b>, Sutanudjaja et al. (2018), doi.org/10.5194/gmd-11-2429-2018</span></li>
+ <li><span class="cite">
+  <svg width="16" height="16">
+  <circle cx="8" cy="8" r="8" stroke="orange" stroke-width="0" fill="#fe7403" />
+  <text fill="white" font-size="14" font-family="Calibri (Body)" font-style="normal"
+    x="45%" y="58%" dominant-baseline="middle" text-anchor="middle">2</text>
+  </svg>
+ Community Water Model (CWatM) <b>Image source</b> Burek et al. (2020), doi.org/10.5194/gmd-13-3267-2020</span></li>
+ <li> <span class="cite">
+  <svg width="16" height="16">
+  <circle cx="8" cy="8" r="8" stroke="orange" stroke-width="0" fill="#fe7403" />
+  <text fill="white" font-size="14" font-family="Calibri (Body)" font-style="normal"
+    x="45%" y="58%" dominant-baseline="middle" text-anchor="middle">3</text>
+  </svg>
+ SINDBAD <b>Image source</b> Trautmann et al. (2022), doi.org/10.5194/hess-26-1089-2022</span></li>
+</ul>
+<aside class="notes">&gt; Can we go more data-driven, and efficiently make use of vast amount of EA data?</aside>
+
+            </section>
+        
+            <section >
+                <h2>Hybrid modeling; learning from data</h2>
+<figure>
+  <img src="imgs/concept.png" width=100% />
+  <figcaption>Hybrid modeling combines machine learning and physically based modeling.<span class="cite"> B. Kraft</span></figcaption>
+</figure>
+<aside class="notes">&gt; yes, we can, with hybrid modeling</aside>
+
+            </section>
+        
+            <section >
+                <h2>Hybrid modeling: global and spatiotemporal parameters</h2>
+<figure>
+  <img src="imgs/params.png" width=100% />
+  <figcaption>Hybrid modeling combines machine learning and physically based modeling.<span class="cite"> B. Kraft</span></figcaption>
+</figure>
+<aside class="notes">&gt; we can learn global parameters with the optimizer</br>&gt; we can connect parameters to data</aside>
+
+            </section>
+        
+            <section >
+                <figure>
+  <img src="imgs/m1.png" width=100% />
+  <figcaption>A dynamic hybrid model that combines a recurrent neural network and a dynamic physically based model. <span class="cite">B. Kraft</span></figcaption> 
+</figure>
+<aside class="notes">&gt; simple conceptual model</br>&gt; represents storages of snow, soil moisure, and groundwater</br>quickly go through model</br>&gt; orange parameters: estimated by RNN</aside>
+
+            </section>
+        
+            <section >
+                <figure>
+  <img src="imgs/m2.png" width=100% />
+  <figcaption>A dynamic hybrid model that combines a recurrent neural network and a dynamic physically based model. <span class="cite">B. Kraft</span></figcaption> 
+</figure>
+<aside class="notes">&gt; For each cell, we estimate time-varying parameters</br>We get parameters that vary in time and space</aside>
+
+            </section>
+        
+            <section >
+                <figure>
+  <img src="imgs/m3.png" width=100% />
+  <figcaption>A dynamic hybrid model that combines a recurrent neural network and a dynamic physically based model. <span class="cite">B. Kraft</span></figcaption> 
+</figure>
+<aside class="notes">&gt; we also estimate global parameters, for example baseflow constant<br/>&gt; quite simple, as we need to avoid equifinality as good as possible</aside>
+
+            </section>
+        
+            <section data-background-video="./imgs/storages.webm, https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-video-loop data-background-video-muted data-background-repeat="repeat" data-background-size="contain">
+                <h2>Simulated water storages</br>$\ $</br>$\ $</br>$\ $</br>$\ $</h2>
+<!-- .slide: data-background-video="./imgs/storages.webm, https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-video-loop data-background-video-muted data-background-repeat="repeat" data-background-size="contain"-->
+            </section>
+        
+            <section >
+                <figure>
+  <img src="imgs/decomp.png" width=100% />
+  <figcaption>Cummulative water deficit (CWD) vs water input partitioning fractions. Larger CWD values mean drier soil.</figcaption>
+</figure>
+            </section>
+        
+            <section >
+                <figure>
+  <img src="imgs/fig06.png" width=100% />
+  <figcaption>Cummulative water deficit (CWD) vs water input partitioning fractions. Larger CWD values mean drier soil.</figcaption>
+</figure>
+<aside class="notes">&gt; What do we see?</br>&gt; spatiotemporal distribution per CWD bin</br>&gt; Relationship not constrained, “emergent behavior”</br>&gt; Large spread indicates spatiotemporal heterogeneity, shows flexibility of the model.</aside>
+
+            </section>
+        
+            <section >
+                <h2>Hybrid modeling: equifinality</h2>
+<figure>
+  <img src="imgs/concept.png" width=80% />
+</figure>
+<aside class="notes">&gt; biggest issue woth the flexible approach: equifinality</aside>
+
+            </section>
+        
+            <section >
+                <h2>Hybrid modeling: equifinality</h2>
+<figure>
+  <img src="imgs/concept_equi.png" width=80% />
+</figure>
+<aside class="notes">&gt; model identifyability, many soluaitons may lead to same result</br>&gt; this si why our model is very simple at the moment</aside>
+
+            </section>
+        
+            <section >
+                <h2>Why more “data driven”?</h2>
+<ul>
+<li>Knowledge may be <strong>wrong or incomplete</strong></br>$\rightarrow$ biases</li>
+<li>We have large <strong>amounts of Earth observation data</strong></br>$\rightarrow$ we can <strong>learn from this data</strong></li>
+<li>Data driven not better but different</br>$\rightarrow$new and <strong>complementary insights</strong></li>
+</ul>
+
+            </section>
+        
+            <section >
+                <h2>Next steps (work in progress)</h2>
+<ul>
+<li>Uncertainty-aware model</li>
+<li>Identify equifinalities</li>
+<li>Use additional constraints
+<ul>
+<li>increase model complexity</li>
+<li>use additional data constraints</li>
+</ul>
+</li>
+</ul>
+
+            </section>
+        
+            <section >
+                <p><strong>Paper</strong> <a href="http://doi.org/10.5194/hess-26-1579-2022">doi.org/10.5194/hess-26-1579-2022</a></p>
+<p><strong>Code</strong> <a href="http://github.com/bask0/h2m">github.com/bask0/h2m</a></p>
+<p><strong>Simulations</strong> <a href="http://dx.doi.org/10.17617/3.65">dx.doi.org/10.17617/3.65</a></p>
+<hr>
+<p><img src="imgs/email.png" width=30 /> <a href="mailto:bkraft@bgc-jena.mpg.de">bkraft@bgc-jena.mpg.de</a></br>
+<img src="imgs/twitter.png" width=30 /> @BasilKraft</p>
+<aside class="notes"> talk was short, check out paper for more details</aside>
+
+            </section>
+        
+            <section >
+                <embed src="https://hess.copernicus.org/articles/26/1579/2022/hess-26-1579-2022.pdf" width="1000" height="600">
+            </section>
+        
+
+    </section>
+    
+
+
+
+    
+    <section>
+        <section data-background="imgs/bucket_model.png" data-background-size="80%">
+            <!-- .slide: data-background="imgs/bucket_model.png" data-background-size="80%"-->
+            </section>
+        
+            <section >
+                <h2>Model performance</h2>
+<figure>
+  <img src="imgs/fig03_simple.png" width=800 />
+  <figcaption>Model performance of the hybrid model (H2M) and four process-based models. Diamond markers (♦️) represent globally averaged signal, bars the cell-level performance. </figcaption>
+</figure>
+            </section>
+        
+            <section >
+                <h2>TWS decomposition</br>(TWS = SWE + SM + GW)</h2>
+<figure>
+  <img src="imgs/models.png" width=800 />
+  <figcaption>Terrestrial water storage components of different models.</figcaption>
+</figure>
+            </section>
+        
+            <section >
+                <figure>
+  <img src="imgs/fig10.svg" width=800 />
+  <figcaption>Spatial TWS decomposition into snow (SWE), soil moisture (CWD), and groundwater (GW). Top: Mean seasonal cycle (MSC), bot: interannual variabilitiy (IAV, 'residuals' of MSC)</figcaption>
+</figure>
+            </section>
+        
+            <section data-background-video="./imgs/fracs.webm, https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-video-loop data-background-video-muted data-background-repeat="repeat" data-background-size="contain">
+                <h2>Learned water partitioning fractions</br>$\ $</br>$\ $</br>$\ $</br>$\ $</h2>
+<!-- .slide: data-background-video="./imgs/fracs.webm, https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-video-loop data-background-video-muted data-background-repeat="repeat" data-background-size="contain"-->
+            </section>
+        
+            <section >
+                <h3>Self-paced multi-task learning</h3>
+<small>
+<script type="math/tex; mode=display">
+\begin{aligned}
+loss_{1} &= \mathcal{L}(\hat{var_1}, var_1) \\
+loss_{2} &= \mathcal{L}(\hat{var_2}, var_2) \\
+{loss}_\mathrm{total} &= \frac{1}{\sigma_{1}^2} loss_{1} + log(\sigma_{1}) + \frac{1}{\sigma_{2}^2} loss_{2} + log(\sigma_{2}) \\ \\
+{loss}_\mathrm{total} &= \sum_i^n  \frac{1}{\sigma_{i}^2} loss_{i} + log(\sigma_{i}) = \sum_i^n  w_{i} loss_{i} + log(\sigma_{i})
+\end{aligned}
+</script>
+<p>$\sigma_i$: Task uncertainty, trainable parameter</p>
+<small>
+<p>Kendall, A., Gal, Y. and Cipolla, R., 2018. <strong>Multi-task learning using uncertainty to weigh losses for scene geometry and semantics.</strong> In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (pp. 7482-7491).</p>
+</small>
+</small>
+            </section>
+        
+
+    </section>
+    
+
+
+    </div>
+
+
+  </div>
+
+  	
+	<script src="libs/reveal.js/4.1.3/reveal.js"></script>
+	<script src="libs/reveal.js/4.1.3/plugin/zoom/zoom.js"></script>
+	<script src="libs/reveal.js/4.1.3/plugin/notes/notes.js"></script>
+	<script src="libs/reveal.js/4.1.3/plugin/search/search.js"></script>
+	<script src="libs/reveal.js/4.1.3/plugin/markdown/markdown.js"></script>
+	<script src="libs/reveal.js/4.1.3/plugin/highlight/highlight.js"></script>
+	<script src="libs/reveal.js/4.1.3/plugin/menu/menu.js"></script>
+	<script src="libs/reveal.js/4.1.3/plugin/math/math.js"></script>
+
+	<script src="libs/reveal.js/4.1.3/plugin/fullscreen/plugin.js"></script>
+  
+  	<script src="libs/reveal.js/4.1.3/plugin/animate/plugin.js"></script>
+  	<script src="libs/reveal.js/4.1.3/plugin/animate/svg.min.js"></script>
+  
+  	<script src="libs/reveal.js/4.1.3/plugin/anything/plugin.js"></script>
+	  <script src="libs/reveal.js/4.1.3/plugin/anything/Chart.min.js"></script>
+	<script src="libs/reveal.js/4.1.3/plugin/anything/d3/d3.v3.min.js"></script>				
+	<script src="libs/reveal.js/4.1.3/plugin/anything/d3.patch.js"></script>			
+	<script src="libs/reveal.js/4.1.3/plugin/anything/d3/queue.v1.min.js"></script>		
+	<script src="libs/reveal.js/4.1.3/plugin/anything/d3/topojson.v1.min.js"></script>		
+	<script src="libs/reveal.js/4.1.3/plugin/anything/function-plot.js"></script>
+
+ <!--	<script src="libs/reveal.js/4.1.3/plugin/audio-slideshow/plugin.js"></script>  -->
+<!--	<script src="libs/reveal.js/4.1.3/plugin/audio-slideshow/recorder.js"></script>-->
+<!--	<script src="libs/reveal.js/4.1.3/plugin/audio-slideshow/RecordRTC.js"></script>-->
+
+<script src="libs/reveal.js/4.1.3/plugin/chalkboard/plugin.js"></script>
+	<script src="libs/reveal.js/4.1.3/plugin/customcontrols/plugin.js"></script>
+	<script src="libs/reveal.js/4.1.3/plugin/embed-tweet/plugin.js"></script>
+
+	<script src="libs/reveal.js/4.1.3/plugin/chart/chart.min.js"></script>
+	<script src="libs/reveal.js/4.1.3/plugin/chart/plugin.js"></script>
+
+  <script>
+
+		const printPlugins = [
+			RevealNotes, 
+			RevealHighlight,
+			RevealMath,
+			RevealAnimate,
+			RevealChalkboard, 
+			RevealEmbedTweet,
+			RevealChart,
+		];
+
+		const plugins =  [...printPlugins,
+		RevealZoom, 
+		RevealSearch, 
+				RevealMarkdown, 
+				RevealMenu, 
+				RevealFullscreen,
+				RevealAnything,
+				//RevealAudioSlideshow,
+				//RevealAudioRecorder,
+				RevealCustomControls, 
+				// poll
+				// question
+				// seminar
+				 ]
+
+
+		// Also available as an ES module, see:
+		// https://revealjs.com/initialization/
+		Reveal.initialize({
+			controls: true,
+			controlsTutorial: true,
+			controlsLayout: 'bottom-right',
+			controlsBackArrows: 'faded',
+			progress: true,
+			slideNumber: false,
+			//#showSlideNumber "all" "print" "speaker"
+			hash: true,//#  hash: false,
+			//# respondToHashChanges: true,
+			//# history: false,
+			keyboard: true,
+			//#keyboardCondition: null,
+			overview: true,
+			center: true,
+			touch: true,
+			loop: false,
+			rtl: false,
+			//#navigationMode: 'default', linear grid
+			shuffle: false,
+			fragments: true,
+			fragmentInURL: false,
+			embedded: false,
+			help: true,
+			//#pause: true
+			showNotes: false,
+			autoPlayMedia: true, // TODO fix this to a nullable value
+			//#preloadIframes: null. true false
+			//#autoAnimate: true
+			//#autoAnimateMatcher: null,
+			//#autoAnimateEasing: 'ease',
+			//autoAnimateDuration: 1.0,
+			//#autoAnimateUnmatched: true
+			//#autoAnimateStyles: []
+			autoSlide: 0, // TODO fix this to a falseable value
+			autoSlideStoppable: true,
+			autoSlideMethod: '0',
+			defaultTiming: 120,
+			mouseWheel: false,
+			//#previewLinks: false
+			//#postMessage: true,  // TODO : this can cause issues with the vscode api ???
+			//#postMessageEvents: false,
+			//#focusBodyOnPageVisibilityChange: true,
+			transition: 'fade',
+			transitionSpeed: 'default',
+			backgroundTransition: 'fade',
+			//#pdfMaxPagesPerSlide: Number.POSITIVE_INFINITY,
+			//#pdfSeparateFragments: true,
+			//#pdfPageHeightOffset: -1,
+			viewDistance: 3,
+			//#mobileViewDistance: 2,
+			display: 'block',
+			//#hideInactiveCursor: true,
+			//#hideCursorTime: 5000
+
+			// Parallax Background
+			parallaxBackgroundImage: '',
+			parallaxBackgroundSize: '',
+			parallaxBackgroundHorizontal: 0,
+			parallaxBackgroundVertical: 0,
+			
+			//Presentation Size
+			width: 960,
+			height: 700,
+			margin: 0.04,
+			minScale: 0.2,
+			maxScale: 2,
+			disableLayout: false,
+
+			audio: {
+				prefix: 'audio/', 	// audio files are stored in the "audio" folder
+				suffix: '.ogg',		// audio files have the ".ogg" ending
+				textToSpeechURL: null,  // the URL to the text to speech converter
+				defaultNotes: false, 	// use slide notes as default for the text to speech converter
+				defaultText: false, 	// use slide text as default for the text to speech converter
+				advance: 0, 		// advance to next slide after given time in milliseconds after audio has played, use negative value to not advance
+				autoplay: false,	// automatically start slideshow
+				defaultDuration: 5,	// default duration in seconds if no audio is available
+				defaultAudios: true,	// try to play audios with names such as audio/1.2.ogg
+				playerOpacity: 0.05,	// opacity value of audio player if unfocused
+				playerStyle: 'position: fixed; bottom: 4px; left: 25%; width: 50%; height:75px; z-index: 33;', // style used for container of audio controls
+				startAtFragment: false, // when moving to a slide, start at the current fragment or at the start of the slide
+			},
+			
+			chalkboard: { // font-awesome.min.css must be available
+					//src: "chalkboard/chalkboard.json",
+					storage: "chalkboard-demo",
+				},
+			
+			customcontrols: {
+					controls: [
+      						{
+						  id: 'toggle-overview',
+						  title: 'Toggle overview (O)',
+						  icon: '<i class="fa fa-th"></i>',
+						  action: 'Reveal.toggleOverview();'
+						}
+						,
+						{ icon: '<i class="fa fa-pen-square"></i>',
+						  title: 'Toggle chalkboard (B)',
+						  action: 'RevealChalkboard.toggleChalkboard();'
+						},
+						{ icon: '<i class="fa fa-pen"></i>',
+						  title: 'Toggle notes canvas (C)',
+						  action: 'RevealChalkboard.toggleNotesCanvas();'
+						}
+				]
+			},
+			chart: {
+					defaults: { 
+						color: 'lightgray', // color of labels
+						scale: { 
+							beginAtZero: true, 
+							ticks: { stepSize: 1 },
+							grid: { color: "lightgray" } , // color of grid lines
+						},
+					},
+					line: { borderColor: [ "rgba(20,220,220,.8)" , "rgba(220,120,120,.8)", "rgba(20,120,220,.8)" ], "borderDash": [ [5,10], [0,0] ] }, 
+					bar: { backgroundColor: [ "rgba(20,220,220,.8)" , "rgba(220,120,120,.8)", "rgba(20,120,220,.8)" ]}, 
+					pie: { backgroundColor: [ ["rgba(0,0,0,.8)" , "rgba(220,20,20,.8)", "rgba(20,220,20,.8)", "rgba(220,220,20,.8)", "rgba(20,20,220,.8)"] ]},
+					radar: { borderColor: [ "rgba(20,220,220,.8)" , "rgba(220,120,120,.8)", "rgba(20,120,220,.8)" ]}, 
+			},
+			math: {
+				mathjax: 'https://cdn.jsdelivr.net/gh/mathjax/mathjax@2.7.8/MathJax.js',
+				config: 'TeX-AMS_HTML-full',
+				// pass other options into `MathJax.Hub.Config()`
+				TeX: { Macros: { RR: "{\\bf R}" } }
+				},
+				anything: [ 
+				{
+		className: "plot",
+		defaults: {width:500, height: 500, grid:true},
+		initialize: (function(container, options){ options.target = "#"+container.id; functionPlot(options) })
+	 },
+	 {
+		className: "chart",  
+		initialize: (function(container, options){ container.chart = new Chart(container.getContext("2d"), options);  })
+	 },
+	 {
+		className: "anything",
+		initialize: (function(container, options){ if (options && options.initialize) { options.initialize(container)} })
+	 },
+					],
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: (window.location.search.match(/print-pdf/gi) ? printPlugins : plugins ) 
+		});
+			
+
+
+	    // Change chalkboard theme : 
+		function changeTheme(input) {
+			var config = {};
+			config.theme = input.value;
+			Reveal.getPlugin("RevealChalkboard").configure(config);
+			input.blur();
+		}
+
+		// // Handle the message inside the webview
+        // window.addEventListener('message', event => {
+
+        //     const message = event.data; // The JSON data our extension sent
+
+        //     switch (message.command) {
+        //         case 'refactor':
+        //             Reveal.toggleHelp();
+        //     }
+        // });
+
+		if (window.location.search.match(/print-pdf-now/gi)) {
+      		setTimeout(() => {
+				window.print();
+			  }, 2500);
+			
+    }
+		
+
+	</script>
+
+</body>
+
+</html>
