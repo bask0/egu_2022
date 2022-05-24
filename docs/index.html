@@ -97,7 +97,7 @@
   </tr>
 </table>
 </font>
-<aside class="notes">&gt; talk about the combination of DL and physically-based modeling for estimating global terrestrial water storage components</br>&gt; I will focus on introducing the concept and methods</aside>
+<aside class="notes">&gt; talk about the combination of DL and physically-based modeling for estimating global terrestrial water storage components</br>&gt; name, work is a collaboration with [co-authors]&gt; I will focus on introducing the concept and methods</br></aside>
 
             </section>
     
@@ -112,7 +112,7 @@
   <img src="imgs/tws_concept.png" width=50% />
   <figcaption>Water storage components and major land surface processes</br><span class='cite'><b>Image source</b> g3p website; climers.geo.tuwien.ac.at/climers/research/soil-moisture/g3p/</span></figcaption>
 </figure>
-<aside class="notes">&gt; major challenge: estimating storage components</br>&gt; We can’t measure the components on spatially contihuous, global scale</br>but we can measure total storage variations</br>that’s why we use models</aside>
+<aside class="notes">&gt; major water storages</br>&gt; major challenge: estimating storage components</br>&gt; We can’t measure the components on spatially contihuous, global scale</br>but we can measure total storage variations</br>that’s why we use models</aside>
 
             </section>
         
@@ -131,7 +131,7 @@
                 <h2>Knowledge versus data driven models</h2>
 <figure>
   <img src="imgs/model_zoo1.png" width=100% />
-  <figcaption>Physically-based model are more rigid but give detailed insights, conceptual models are less detailed but are oftne closer to observations.</figcaption>
+  <figcaption>Physically-based model are more rigid but give detailed insights, conceptual models are less detailed but are often closer to observations.</figcaption>
 </figure>
 <ul style="list-style: none; margin: -0px 0px 0px 0px; line-height: 30%">
  <li><span class="cite">
@@ -141,22 +141,15 @@
      x="45%" y="58%" dominant-baseline="middle" text-anchor="middle">1</text>
   </svg>
   PCRaster Global Water Balance (PCR-GLOBWB) <b>Image source</b>, Sutanudjaja et al. (2018), doi.org/10.5194/gmd-11-2429-2018</span></li>
- <li><span class="cite">
+ <li> <span class="cite">
   <svg width="16" height="16">
   <circle cx="8" cy="8" r="8" stroke="orange" stroke-width="0" fill="#fe7403" />
   <text fill="white" font-size="14" font-family="Calibri (Body)" font-style="normal"
     x="45%" y="58%" dominant-baseline="middle" text-anchor="middle">2</text>
   </svg>
- Community Water Model (CWatM) <b>Image source</b> Burek et al. (2020), doi.org/10.5194/gmd-13-3267-2020</span></li>
- <li> <span class="cite">
-  <svg width="16" height="16">
-  <circle cx="8" cy="8" r="8" stroke="orange" stroke-width="0" fill="#fe7403" />
-  <text fill="white" font-size="14" font-family="Calibri (Body)" font-style="normal"
-    x="45%" y="58%" dominant-baseline="middle" text-anchor="middle">3</text>
-  </svg>
  SINDBAD <b>Image source</b> Trautmann et al. (2022), doi.org/10.5194/hess-26-1089-2022</span></li>
 </ul>
-<aside class="notes">&gt; Large number of modeling concepts</br>&gt; Physically-based, close to physics, models with tunable parameters, conceptual models</br>&gt; from left to right, more data-driven</br>&gt; Simplified: less biases, less detailed insights</aside>
+<aside class="notes">&gt; Large number of modeling concepts</br>&gt; Physically-based, close to physics, models with tunable parameters (discharge), conceptual models (tuned with multiple datasets)</br>&gt; from left to right, more data-driven</br>&gt; Simplified: less biases, less detailed insights</aside>
 
             </section>
         
@@ -164,7 +157,7 @@
                 <h2>Knowledge versus data driven models</h2>
 <figure>
   <img src="imgs/model_zoo2.png" width=100% />
-  <figcaption>Physically-based model are more rigid but give detailed insights, conceptual models are less detailed but are oftne closer to observations.</figcaption>
+  <figcaption>Physically-based model are more rigid but give detailed insights, conceptual models are less detailed but are often closer to observations.</figcaption>
 </figure>
 <ul style="list-style: none; margin: -0px 0px 0px 0px; line-height: 30%">
  <li><span class="cite">
@@ -174,18 +167,11 @@
      x="45%" y="58%" dominant-baseline="middle" text-anchor="middle">1</text>
   </svg>
   PCRaster Global Water Balance (PCR-GLOBWB) <b>Image source</b>, Sutanudjaja et al. (2018), doi.org/10.5194/gmd-11-2429-2018</span></li>
- <li><span class="cite">
-  <svg width="16" height="16">
-  <circle cx="8" cy="8" r="8" stroke="orange" stroke-width="0" fill="#fe7403" />
-  <text fill="white" font-size="14" font-family="Calibri (Body)" font-style="normal"
-    x="45%" y="58%" dominant-baseline="middle" text-anchor="middle">2</text>
-  </svg>
- Community Water Model (CWatM) <b>Image source</b> Burek et al. (2020), doi.org/10.5194/gmd-13-3267-2020</span></li>
  <li> <span class="cite">
   <svg width="16" height="16">
   <circle cx="8" cy="8" r="8" stroke="orange" stroke-width="0" fill="#fe7403" />
   <text fill="white" font-size="14" font-family="Calibri (Body)" font-style="normal"
-    x="45%" y="58%" dominant-baseline="middle" text-anchor="middle">3</text>
+    x="45%" y="58%" dominant-baseline="middle" text-anchor="middle">2</text>
   </svg>
  SINDBAD <b>Image source</b> Trautmann et al. (2022), doi.org/10.5194/hess-26-1089-2022</span></li>
 </ul>
@@ -240,16 +226,9 @@
 
             </section>
         
-            <section data-background-video="./imgs/storages.webm" data-background-video-loop data-background-video-muted data-background-repeat="repeat" data-background-size="contain">
-                <h2>Simulated water storages</br>$\ $</br>$\ $</br>$\ $</br>$\ $</br>$\ $</h2>
-<!-- .slide: data-background-video="./imgs/storages.webm" data-background-video-loop data-background-video-muted data-background-repeat="repeat" data-background-size="contain"-->
-            </section>
-        
-            <section >
-                <figure>
-  <img src="imgs/decomp.png" width=100% />
-  <figcaption>Total water storage decomposition into snow (SWE), soil moisure (SM), and groundwater (GW). Top row: hybrid model (H2M), bottom: physically-based model (PCR-GLOBWB). The seasonality (MSC) and anomalies (IAV) are shown.</figcaption>
-</figure>
+            <section data-background-video="./imgs/fracs.webm" data-background-video-loop data-background-video-muted data-background-repeat="repeat" data-background-size="contain">
+                <h2>Learned water partitioning fractions</br>$\ $</br>$\ $</br>$\ $</br>$\ $</br>$\ $</h2>
+<!-- .slide: data-background-video="./imgs/fracs.webm" data-background-video-loop data-background-video-muted data-background-repeat="repeat" data-background-size="contain"-->
             </section>
         
             <section >
@@ -262,21 +241,10 @@
             </section>
         
             <section >
-                <h2>Hybrid modeling: equifinality</h2>
-<figure>
-  <img src="imgs/concept.png" width=80% />
+                <figure>
+  <img src="imgs/decomp.png" width=100% />
+  <figcaption>Total water storage decomposition into snow (SWE), soil moisure (SM), and groundwater (GW). Top row: hybrid model (H2M), bottom: physically-based model (PCR-GLOBWB). The seasonality (MSC) and anomalies (IAV) are shown.</figcaption>
 </figure>
-<aside class="notes">&gt; biggest issue woth the flexible approach: equifinality</aside>
-
-            </section>
-        
-            <section >
-                <h2>Hybrid modeling: equifinality</h2>
-<figure>
-  <img src="imgs/concept_equi.png" width=80% />
-</figure>
-<aside class="notes">&gt; model identifyability, many soluaitons may lead to same result</br>&gt; this si why our model is very simple at the moment</aside>
-
             </section>
         
             <section >
@@ -337,6 +305,20 @@
   <img src="imgs/fig03_simple.png" width=800 />
   <figcaption>Model performance of the hybrid model (H2M) and four process-based models. Diamond markers (♦️) represent globally averaged signal, bars the cell-level performance. </figcaption>
 </figure>
+            </section>
+        
+            <section >
+                <h2>Hybrid modeling: equifinality</h2>
+<figure>
+  <img src="imgs/concept_equi.png" width=80% />
+</figure>
+<aside class="notes">&gt; model identifyability, many soluaitons may lead to same result</br>&gt; this si why our model is very simple at the moment</aside>
+
+            </section>
+        
+            <section data-background-video="./imgs/storages.webm" data-background-video-loop data-background-video-muted data-background-repeat="repeat" data-background-size="contain">
+                <h2>Simulated water storages</br>$\ $</br>$\ $</br>$\ $</br>$\ $</br>$\ $</h2>
+<!-- .slide: data-background-video="./imgs/storages.webm" data-background-video-loop data-background-video-muted data-background-repeat="repeat" data-background-size="contain"-->
             </section>
         
             <section data-background-video="./imgs/fracs.webm" data-background-video-loop data-background-video-muted data-background-repeat="repeat" data-background-size="contain">
